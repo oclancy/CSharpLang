@@ -1,26 +1,18 @@
 ﻿using Terminal.Gui;
 using NStack;
 using System.Text;
+using Terminal.Views;
 
 Application.Init();
 var top = Application.Top;
+
+
+
 
 var sb = new StringBuilder();
 TextWriter tw = new StringWriter(sb);
 Console.SetOut(tw);
 
-// Creates the top-level window to show
-var win = new Window("MyApp")
-{
-	X = 0,
-	Y = 1, // Leave one row for the toplevel menu
-
-	// By using Dim.Fill(), it will automatically resize without manual intervention
-	Width = Dim.Fill(),
-	Height = Dim.Fill()
-};
-
-top.Add(win);
 
 // Creates a menubar, the item "New" has a help menu.
 var menu = new MenuBar(new MenuBarItem[] {
@@ -35,7 +27,40 @@ var menu = new MenuBar(new MenuBarItem[] {
 			//	new MenuItem ("_Paste", "", null)
 			//})
 		});
+
+FrameView frameLeft = new FrameView("Program")
+{
+	Y = 1,
+	Width = Dim.Percent(50),
+	Height = Dim.Fill()
+};
+
+FrameView frameRight = new FrameView("Operation")
+{
+	Y = 1,
+	X = Pos.Right(frameLeft),
+	Width = Dim.Percent(50),
+	Height = Dim.Fill()
+};
+
+
+
+var win = new Main();
+win.SelectedItemChanged += Win_SelectedItemChanged;
+win.SetOptions(new[] { "State" });
+
+void Win_SelectedItemChanged(object? sender, ListViewItemEventArgs e)
+{
+	if (e?.Value == "State")
+	{
+		var right = new StateView();
+		frameRight.Add(right.View);
+	}
+}
+// Add some controls, 
+frameLeft.Add(win.View);
 top.Add(menu);
+top.Add(frameLeft, frameRight);
 
 static bool Quit()
 {
@@ -43,52 +68,48 @@ static bool Quit()
 	return n == 0;
 }
 
-//var login = new Label("Login: ") { X = 3, Y = 2 };
-//var password = new Label("Password: ")
+
+//var consoleText = new TextView()
 //{
-//	X = Pos.Left(login),
-//	Y = Pos.Top(login) + 1
-//};
-//var loginText = new TextField("")
-//{
-//	X = Pos.Right(password),
-//	Y = Pos.Top(login),
-//	Width = 40
+//	X = 1,
+//	Y = 10,
+//	Width = Dim.Fill(),
+//	Height = Dim.Fill(),
+//	Text = "TextView here"
 //};
 
-var consoleText = new TextView()
-{
-	X = 1,
-	Y = 10,
-	Width = Dim.Fill(),
-	Height = Dim.Fill(),
-	Text = "TextView here"
-};
 
-var apply = new Button(1, 4, "_Apply");
-apply.Clicked += Apply_Clicked;
+//var changeRight = new Button("_Change Right")
+//{
+//	X = Pos.Right(@do),
+//	Y = Pos.Top(@do),
+//};
 
-void Apply_Clicked()
-{
-    Console.WriteLine("Clicked");
-	consoleText.Text = sb.ToString();
-}
+//changeRight.Clicked += ChangeRight_Clicked;
+
+//void ChangeRight_Clicked()
+//{
+//	if (win2.Visible)
+//	{
+//		//Application.Top.Remove(win2);
+//		//Application.Top.Add(win3);
+//		win2.Enabled = false;
+//		win2.Visible = false;
+//		win3.Enabled = true;
+//		win3.Visible = true;
+//	}
+//	else if (win3.Visible)
+//	{
+//		//Application.Top.Remove(win3);
+//		//Application.Top.Add(win2);
+//		win3.Enabled = false;
+//		win3.Visible = false;
+//		win2.Enabled = true;
+//		win2.Visible = true;
+//	}
+//}
 
 
-var @do = new Button("_Do") {
-	X = Pos.Right(apply),
-	Y = Pos.Top(apply),
-};
-
-// Add some controls, 
-win.Add(
-		// The ones laid out like an australopithecus, with Absolute positions:
-	new Label(1, 2, "State"),
-	new RadioGroup(1, 3, new ustring[] { "_Start", "_Pause", "_Stop" }, 0) { DisplayMode = DisplayModeLayout.Horizontal,  },
-	apply,
-	@do,
-	consoleText
-);
 
 
 
