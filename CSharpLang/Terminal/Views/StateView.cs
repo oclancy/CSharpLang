@@ -12,15 +12,11 @@ namespace Terminal.Views
 {
     internal class StateView
     {
+        internal const string NAME = "State";
         public Window View { get; private set; }
         public StateView()
         {
-            View = new Window("State")
-            {
-                //// By using Dim.Fill(), it will automatically resize without manual intervention
-                //Width = Dim.Fill(),
-                //Height = Dim.Fill()
-            };
+            View = new Window(NAME);
 
             var apply = new Button(1, 4, "_Apply");
             apply.Clicked += Apply_Clicked;

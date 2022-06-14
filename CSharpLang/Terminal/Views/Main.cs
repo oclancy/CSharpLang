@@ -16,12 +16,16 @@ namespace Terminal.Views
         {
             View = new Window("Stuff")
             {
-                // By using Dim.Fill(), it will automatically resize without manual intervention
-                Width = Dim.Fill(),
+                Y = 1,
+                Width = Dim.Percent(50),
                 Height = Dim.Fill()
             };
 
-            List = new ListView();
+            List = new ListView()
+            {
+                Width = Dim.Fill(),
+                Height = Dim.Fill()
+            };
             List.SelectedItemChanged += List_SelectedItemChanged;
             View.Add(List);
         }

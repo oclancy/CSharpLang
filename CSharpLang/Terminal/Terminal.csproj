@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Courier" Version="5.0.0" />
     <PackageReference Include="Terminal.Gui" Version="1.6.4" />
   </ItemGroup>
 

@@ -2,11 +2,18 @@
 using NStack;
 using System.Text;
 using Terminal.Views;
+using MediatR;
 
 Application.Init();
 var top = Application.Top;
 
+//Mediator mediator = new Mediator((t) =>
+//{
+//	Console.WriteLine($"Asked for type {t}");
+//	return new();
+//});
 
+IDictionary<string, View> viewDictionary = new Dictionary<string, View>();
 
 
 var sb = new StringBuilder();
@@ -28,92 +35,58 @@ var menu = new MenuBar(new MenuBarItem[] {
 			//})
 		});
 
-FrameView frameLeft = new FrameView("Program")
-{
-	Y = 1,
-	Width = Dim.Percent(50),
-	Height = Dim.Fill()
-};
-
-FrameView frameRight = new FrameView("Operation")
-{
-	Y = 1,
-	X = Pos.Right(frameLeft),
-	Width = Dim.Percent(50),
-	Height = Dim.Fill()
-};
-
-
-
 var win = new Main();
-win.SelectedItemChanged += Win_SelectedItemChanged;
-win.SetOptions(new[] { "State" });
 
-void Win_SelectedItemChanged(object? sender, ListViewItemEventArgs e)
+View frameRight = new View("Operation")
 {
-	if (e?.Value == "State")
-	{
-		var right = new StateView();
-		frameRight.Add(right.View);
+	Y = 1,
+	X = Pos.Right(win.View),
+	Width = Dim.Percent(50),
+	Height = Dim.Fill()
+};
+
+win.SelectedItemChanged += (object? sender, ListViewItemEventArgs e) =>
+{
+	if (!viewDictionary.TryGetValue(e.Value.ToString(), out var view)) {
+		if (e?.Value == StateView.NAME)
+		{
+			var right = new StateView();
+			viewDictionary.Add(StateView.NAME, right.View);
+			frameRight.Add(right.View);
+		}
+		else if (e?.Value == ConsoleView.NAME)
+		{
+			var right = new ConsoleView(sb);
+			viewDictionary.Add(ConsoleView.NAME, right.View);
+			frameRight.Add(right.View);
+		}
+		else if (e?.Value == BuilderView.NAME)
+		{
+			var right = new BuilderView();
+			viewDictionary.Add(BuilderView.NAME, right.View);
+			frameRight.Add(right.View);
+		}
 	}
-}
+    else
+    {
+		frameRight.BringSubviewToFront(view);
+	}
+};
+
 // Add some controls, 
-frameLeft.Add(win.View);
-top.Add(menu);
-top.Add(frameLeft, frameRight);
+top.Add(menu); 
+
+top.Add(win.View);
+
+top.Add(frameRight);
+
+win.SetOptions(new[] { StateView.NAME, BuilderView.NAME, ConsoleView.NAME });
 
 static bool Quit()
 {
 	var n = MessageBox.Query(50, 7, "Quit Demo", "Are you sure you want to quit this demo?", "Yes", "No");
 	return n == 0;
 }
-
-
-//var consoleText = new TextView()
-//{
-//	X = 1,
-//	Y = 10,
-//	Width = Dim.Fill(),
-//	Height = Dim.Fill(),
-//	Text = "TextView here"
-//};
-
-
-//var changeRight = new Button("_Change Right")
-//{
-//	X = Pos.Right(@do),
-//	Y = Pos.Top(@do),
-//};
-
-//changeRight.Clicked += ChangeRight_Clicked;
-
-//void ChangeRight_Clicked()
-//{
-//	if (win2.Visible)
-//	{
-//		//Application.Top.Remove(win2);
-//		//Application.Top.Add(win3);
-//		win2.Enabled = false;
-//		win2.Visible = false;
-//		win3.Enabled = true;
-//		win3.Visible = true;
-//	}
-//	else if (win3.Visible)
-//	{
-//		//Application.Top.Remove(win3);
-//		//Application.Top.Add(win2);
-//		win3.Enabled = false;
-//		win3.Visible = false;
-//		win2.Enabled = true;
-//		win2.Visible = true;
-//	}
-//}
-
-
-
-
-
-
 
 Application.Run();
 Application.Shutdown();
