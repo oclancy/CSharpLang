@@ -10,10 +10,15 @@ using Terminal.Gui;
 
 namespace Terminal.Views
 {
-    internal class StateView
+    internal class StateView :IView
     {
         internal const string NAME = "State";
-        public Window View { get; private set; }
+        internal Window View { get; private set; }
+
+        public string Id => NAME;
+
+        View IView.View => View;
+
         public StateView()
         {
             View = new Window(NAME);

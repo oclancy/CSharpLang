@@ -12,4 +12,8 @@
     <PackageReference Include="Terminal.Gui" Version="1.6.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EFCore\AdventureWorks.Db\AdventureWorks.Db.csproj" />
+  </ItemGroup>
+
 </Project>

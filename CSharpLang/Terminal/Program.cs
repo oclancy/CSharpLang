@@ -1,4 +1,5 @@
-﻿using Terminal.Gui;
+﻿
+using Terminal.Gui;
 using NStack;
 using System.Text;
 using Terminal.Views;
@@ -66,6 +67,13 @@ win.SelectedItemChanged += (object? sender, ListViewItemEventArgs e) =>
 			viewDictionary.Add(BuilderView.NAME, right.View);
 			frameRight.Add(right.View);
 		}
+		else if (e?.Value == AdventureWorksView.NAME)
+		{
+			var right = new AdventureWorksView();
+			viewDictionary.Add(AdventureWorksView.NAME, right.View);
+			frameRight.Add(right.View);
+		}
+
 	}
     else
     {
@@ -80,7 +88,7 @@ top.Add(win.View);
 
 top.Add(frameRight);
 
-win.SetOptions(new[] { StateView.NAME, BuilderView.NAME, ConsoleView.NAME });
+win.SetOptions(new[] { StateView.NAME, BuilderView.NAME, ConsoleView.NAME, AdventureWorksView.NAME });
 
 static bool Quit()
 {

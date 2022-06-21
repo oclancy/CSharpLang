@@ -8,11 +8,13 @@ using Terminal.Gui;
 
 namespace Terminal.Views
 {
-    internal class BuilderView
+    internal class BuilderView : IView
     {
         internal const string NAME = "Builder";
 
-        public Window View { get; private set; }
+        public View View { get; private set; }
+
+        public string Id => NAME;
 
         public BuilderView()
         {

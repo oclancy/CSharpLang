@@ -10,12 +10,15 @@ using Terminal.Gui;
 
 namespace Terminal.Views
 {
-    internal class ConsoleView
+    internal class ConsoleView : IView
     {
         internal const string NAME = "Console";
-        internal View View => textView;
+        public View View => textView;
         
         private StringBuilder StringBuilder { get; init; }
+
+        public string Id => NAME;
+
 
         private TextView textView;
 
