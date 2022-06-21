@@ -21,7 +21,7 @@ namespace Terminal.Views
         public View View { get; private set; }
 
         public string Id => NAME;
-        public Window View { get; init; }
+
         private RadioGroup Status { get; init; }
 
         public BuilderView()
