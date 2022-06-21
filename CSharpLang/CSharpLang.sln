@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventureWorks.Db", "EFCore
 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terminal.Tests", "Terminal.Tests\Terminal.Tests.csproj", "{BE435499-4206-44C2-96EF-EEFAE5BEBC31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFData", "EFData\EFData.csproj", "{FCFE41B8-9AE6-426A-9660-A0A990A50753}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{EC358BB1-2B1D-48B5-B24B-C9FC1066601B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC358BB1-2B1D-48B5-B24B-C9FC1066601B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC358BB1-2B1D-48B5-B24B-C9FC1066601B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCFE41B8-9AE6-426A-9660-A0A990A50753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFE41B8-9AE6-426A-9660-A0A990A50753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFE41B8-9AE6-426A-9660-A0A990A50753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFE41B8-9AE6-426A-9660-A0A990A50753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

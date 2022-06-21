@@ -17,9 +17,6 @@ var top = Application.Top;
 IDictionary<string, View> viewDictionary = new Dictionary<string, View>();
 
 
-var sb = new StringBuilder();
-TextWriter tw = new StringWriter(sb);
-Console.SetOut(tw);
 
 
 // Creates a menubar, the item "New" has a help menu.
@@ -57,7 +54,7 @@ win.SelectedItemChanged += (object? sender, ListViewItemEventArgs e) =>
 		}
 		else if (e?.Value == ConsoleView.NAME)
 		{
-			var right = new ConsoleView(sb);
+			var right = new ConsoleView();
 			viewDictionary.Add(ConsoleView.NAME, right.View);
 			frameRight.Add(right.View);
 		}
@@ -89,6 +86,8 @@ top.Add(win.View);
 top.Add(frameRight);
 
 win.SetOptions(new[] { StateView.NAME, BuilderView.NAME, ConsoleView.NAME, AdventureWorksView.NAME });
+
+win.View.SetFocus();
 
 static bool Quit()
 {

@@ -10,7 +10,7 @@ using Terminal.Gui;
 
 namespace Terminal.Views
 {
-    internal class ConsoleView : IView
+    internal class ConsoleView : IDisposable, IView
     {
         internal const string NAME = "Console";
         public View View => textView;
@@ -22,14 +22,35 @@ namespace Terminal.Views
 
         private TextView textView;
 
-        public ConsoleView(StringBuilder stringBuilder)
+        private CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+        public ConsoleView()
         {
-            StringBuilder = stringBuilder;
 
-            textView = new TextView();
-            StringBuilder = stringBuilder;
+            StringBuilder = new StringBuilder();
+            TextWriter tw = new StringWriter(StringBuilder);
+            Console.SetOut(tw);
 
-            textView.Text = StringBuilder.ToString();
+            textView = new TextView() { 
+                Width=Dim.Fill(),
+                Height=Dim.Fill(),
+                ReadOnly=true,
+            };
+
+            var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+            Task.Run( async () =>
+            {
+                while (!tokenSource.Token.IsCancellationRequested)
+                {
+                    textView.Text = StringBuilder.ToString();
+                    await timer.WaitForNextTickAsync();
+                }
+            });
+        }
+
+        public void Dispose()
+        {
+            tokenSource.Cancel();
         }
     }
 }

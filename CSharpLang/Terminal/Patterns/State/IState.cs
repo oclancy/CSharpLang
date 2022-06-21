@@ -10,6 +10,6 @@ namespace Terminal.Patterns.State
     {
         public void Do();
         public IState TryTransitionTo<T>(T newState) where T : IState;
-        public Context Context { get; }
+        internal Context Context { get; set; }
     }
 }

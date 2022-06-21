@@ -8,17 +8,56 @@ using Terminal.Patterns.State;
 
 namespace Terminal.Patterns
 {
-    internal static partial class StateBuilder
+    internal class StateBuilder<T> where T : IState, new()
     {
-        internal static IState Create<T>() where T : IState, new()
+        T _state;
+
+        internal static StateBuilder<T> Create() 
         {
-            return new T();
+            return new StateBuilder<T>();
         }
 
-        internal static IState WithContext(this IState target, Context context)
+        private StateBuilder() 
         {
-            (target as BaseState).Context = context;
-            return target;
+            _state = new T();
+        }
+
+        internal StateBuilder<T> WithContext(Context context)
+        {
+            (_state as BaseState).Context = context;
+            return this;
+        }
+
+        internal IState Build()
+        {
+            return _state;
+        }
+
+    }
+
+    internal class ContextBuilder
+    {
+        Context _context;
+
+        internal static ContextBuilder Create()
+        {
+            return new ContextBuilder();
+        }
+
+        private ContextBuilder()
+        {
+            _context = new Context();
+        }
+
+        internal ContextBuilder WithInitialState<T>() where T : IState, new()
+        {
+            _context.TryTransitionTo(new T());
+            return this;
+        }
+
+        internal Context Build()
+        {
+            return _context;
         }
 
     }

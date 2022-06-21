@@ -8,9 +8,8 @@ namespace Terminal.Patterns.State
 {
     internal abstract class BaseState : IState
     {
-        internal Context Context { get; set; }
+        public Context Context { get; set; }
 
-        Context IState.Context => Context;
 
         internal virtual void Do()
         {
@@ -26,7 +25,7 @@ namespace Terminal.Patterns.State
 
         IState IState.TryTransitionTo<T>(T newState)
         {
-            throw new NotImplementedException();
+            return TryTransitionTo(newState);
         }
 
         //internal BaseState(Context context)

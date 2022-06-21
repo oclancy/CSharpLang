@@ -13,16 +13,16 @@ namespace Terminal.Patterns
         public IState State { get; private set; }
         public int Counter { get; internal set; }
 
-        public Context(IState state)
-        { 
-            State = state;
-        }
-
         public IState TryTransitionTo(IState newState)
         {
+            newState.Context = this;
+
             try
             {
-                State.TryTransitionTo(newState);
+                if (State is null)
+                    SetState(newState);
+                else
+                    State.TryTransitionTo(newState);
             }
             catch (Exception ex)
             {
@@ -40,6 +40,12 @@ namespace Terminal.Patterns
         public override string ToString()
         {
             return $"Current State is {State}, Counter is {Counter}";
+        }
+
+        internal void Do()
+        {
+            State.Do();
+            Console.WriteLine(this);
         }
     }
 }
